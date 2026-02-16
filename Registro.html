@@ -7,7 +7,7 @@
 <script src="https://cdn.emailjs.com/sdk/3.2/email.min.js"></script>
 <script>
 (function(){
-    emailjs.init("TU_PUBLIC_KEY");
+    emailjs.init("rB4Q0pRq4BoiBNgfs");
 })();
 </script>
 
@@ -54,7 +54,7 @@ function registrar(){
     .then(response => response.text())
     .then(data => {
 
-        emailjs.send("TU_SERVICE_ID", "TU_TEMPLATE_ID", {
+        emailjs.send("service_g66lq8a", "template_hyjfmpv", {
             to_name: nombre,
             to_email: correo,
             token: token
