@@ -41,7 +41,7 @@ function registrar(){
     const conferencia = document.getElementById("conferencia").value;
     const token = Math.floor(1000 + Math.random() * 9000);
 
-    fetch("TU_URL_APPS_SCRIPT", {
+    fetch("https://script.google.com/macros/s/AKfycbw26htkZe1efDiA_Kg6kwpdocCqipCgzbuatID_MSMzjLNg2oBPSGnTLOZQOYY5CTYjvA/exec", {
         method: "POST",
         body: JSON.stringify({
             accion: "registrar",
