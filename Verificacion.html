@@ -17,7 +17,7 @@
 function verificar(){
     const token = document.getElementById("token").value;
 
-    fetch("TU_URL_APPS_SCRIPT", {
+    fetch("https://script.google.com/macros/s/AKfycbw26htkZe1efDiA_Kg6kwpdocCqipCgzbuatID_MSMzjLNg2oBPSGnTLOZQOYY5CTYjvA/exec", {
         method: "POST",
         body: JSON.stringify({
             accion: "verificar",
