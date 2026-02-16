@@ -35,11 +35,33 @@ function registrar() {
 
   // Guardar datos en Google Sheets
   fetch("https://script.google.com/macros/s/AKfycbyq-RogThV-QIAId0FEGKGm2WGTIYuMneTM0eL4JZOBIG2WldaKAkuF_vRgOHN6gRI2jw/exec", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ nombre, correo, token, conferencia }),
-      mode: 'no-cors' // Evita error de CORS
-  });
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({
+    nombre: nombre,
+    correo: correo,
+    token: token,
+    conferencia: conferencia
+  })
+  // ❌ NO uses 'mode: no-cors'
+})
+.then(response => response.json()) // Lee la respuesta JSON
+.then(data => {
+  if (data.result === "success") {
+    alert("Registro guardado y correo enviado!");
+  }
+})
+.catch(error => {
+  console.error(error);
+  alert("Error al registrar");
+});
+
+
+  return ContentService
+    .createTextOutput(JSON.stringify({ result: "fail" }))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
 
   // Enviar token por correo
   emailjs.send("service_g66lq8a", "template_kzds39q", {
@@ -49,7 +71,7 @@ function registrar() {
   })
   .then(() => alert("Te enviamos un código a tu correo."))
   .catch(() => alert("Error al enviar el correo."));
-}
+
 </script>
 
 </body>
