@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Verificar</title>
+</head>
+<body>
+
+<h2>Verificación</h2>
+
+<input id="token" placeholder="Ingresa tu token"><br><br>
+<button onclick="verificar()">Validar</button>
+
+<h3 id="resultado"></h3>
+
+<script>
+function verificar(){
+    const token = document.getElementById("token").value;
+
+    fetch("TU_URL_APPS_SCRIPT", {
+        method: "POST",
+        body: JSON.stringify({
+            accion: "verificar",
+            token: token
+        })
+    })
+    .then(response => response.text())
+    .then(data => {
+
+        if(data === "No encontrado"){
+            document.getElementById("resultado").innerHTML =
+                "❌ Token inválido";
+        }
+        else if(data === "Ya validado"){
+            document.getElementById("resultado").innerHTML =
+                "⚠️ Este registro ya fue validado anteriormente";
+        }
+        else{
+            document.getElementById("resultado").innerHTML =
+                "🎉 " + data + "<br>Registro validado correctamente";
+        }
+
+    });
+}
+</script>
+
+</body>
+</html>
