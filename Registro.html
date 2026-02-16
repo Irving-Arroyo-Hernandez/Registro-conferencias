@@ -1,26 +1,20 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>Registro</title>
-        
-        <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-        
-        <script>
-        (function(){
-           emailjs.init("rB4Q0pRq4BoiBNgfs");
-        })();
-        </script>
-        
-        </head>
-        
+<head>
+<meta charset="UTF-8">
+<title>Registro</title>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+<script>
+(function(){
+   emailjs.init("rB4Q0pRq4BoiBNgfs"); // Pon tu user ID
+})();
+</script>
+</head>
 <body>
 
 <h2>Registro a Conferencias</h2>
 
 <input id="nombre" placeholder="Nombre"><br><br>
-<input id="apellidoPaterno" placeholder="Apellido Paterno"><br><br>
-<input id="apellidoMaterno" placeholder="Apellido Materno"><br><br>
 <input id="correo" type="email" placeholder="Correo"><br><br>
 
 <select id="conferencia">
@@ -33,45 +27,30 @@
 <button onclick="registrar()">Registrarse</button>
 
 <script>
-function registrar(){
-    const nombre = document.getElementById("nombre").value;
-    const apellidoPaterno = document.getElementById("apellidoPaterno").value;
-    const apellidoMaterno = document.getElementById("apellidoMaterno").value;
-    const correo = document.getElementById("correo").value;
-    const conferencia = document.getElementById("conferencia").value;
-    const token = Math.floor(1000 + Math.random() * 9000);
+function registrar() {
+  const nombre = document.getElementById("nombre").value;
+  const correo = document.getElementById("correo").value;
+  const conferencia = document.getElementById("conferencia").value;
+  const token = Math.floor(1000 + Math.random() * 9000);
 
-    fetch("https://script.google.com/macros/s/AKfycbyq-RogThV-QIAId0FEGKGm2WGTIYuMneTM0eL4JZOBIG2WldaKAkuF_vRgOHN6gRI2jw/exec", {
-        method: "POST",
-        body: JSON.stringify({
-            accion: "registrar",
-            nombre: nombre,
-            apellidoPaterno: apellidoPaterno,
-            apellidoMaterno: apellidoMaterno,
-            correo: correo,
-            conferencia: conferencia,
-            token: token
-        })
-    })
-    .then(response => response.text())
-    .then(data => {
+  // Guardar datos en Google Sheets
+  fetch("https://script.google.com/macros/s/AKfycbyq-RogThV-QIAId0FEGKGm2WGTIYuMneTM0eL4JZOBIG2WldaKAkuF_vRgOHN6gRI2jw/exec", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ nombre, correo, token, conferencia }),
+      mode: 'no-cors' // Evita error de CORS
+  });
 
-        emailjs.send("service_g66lq8a", "template_kzds39q", {
-            to_name: nombre,
-            to_email: correo,
-            token: token
-        })
-        .then(function(response) {
-            alert("Te enviamos un código a tu correo.");
-        }, function(error) {
-            alert("Error al enviar el correo.");
-        });
-
-    });
+  // Enviar token por correo
+  emailjs.send("service_g66lq8a", "template_kzds39q", {
+      to_name: nombre,
+      to_email: correo,
+      token: token
+  })
+  .then(() => alert("Te enviamos un código a tu correo."))
+  .catch(() => alert("Error al enviar el correo."));
 }
 </script>
 
 </body>
 </html>
-
-
