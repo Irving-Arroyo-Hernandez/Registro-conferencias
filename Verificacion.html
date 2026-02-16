@@ -17,30 +17,21 @@
 function verificar(){
     const token = document.getElementById("token").value;
 
-    fetch("https://script.google.com/macros/s/AKfycbw26htkZe1efDiA_Kg6kwpdocCqipCgzbuatID_MSMzjLNg2oBPSGnTLOZQOYY5CTYjvA/exec", {
-        method: "POST",
-        body: JSON.stringify({
-            accion: "verificar",
-            token: token
-        })
-    })
-    .then(response => response.text())
+    function verificar() {
+  const token = document.getElementById("token").value;
+
+  fetch(`AKfycbyq-RogThV-QIAId0FEGKGm2WGTIYuMneTM0eL4JZOBIG2WldaKAkuF_vRgOHN6gRI2jw?token=${token}`)
+    .then(response => response.json())
     .then(data => {
+      if (data.result == "success") {
+        alert("Usuario validado: " + data.nombre);
+      } else {
+        alert("Token incorrecto");
+      }
+    })
+    .catch(error => console.error("Error:", error));
+}
 
-        if(data === "No encontrado"){
-            document.getElementById("resultado").innerHTML =
-                "❌ Token inválido";
-        }
-        else if(data === "Ya validado"){
-            document.getElementById("resultado").innerHTML =
-                "⚠️ Este registro ya fue validado anteriormente";
-        }
-        else{
-            document.getElementById("resultado").innerHTML =
-                "🎉 " + data + "<br>Registro validado correctamente";
-        }
-
-    });
 }
 </script>
 
