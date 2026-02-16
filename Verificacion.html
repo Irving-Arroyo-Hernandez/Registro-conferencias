@@ -2,35 +2,44 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Verificación</title>
+<title>Verificar</title>
 </head>
 <body>
 
-<h2>Verificación de Conferencia</h2>
+<h2>Verificación</h2>
 
-<input id="token" placeholder="Ingresa tu token">
-<button onclick="verificar()">Verificar</button>
+<input id="token" placeholder="Ingresa tu token"><br><br>
+<button onclick="verificar()">Validar</button>
+
+<h3 id="resultado"></h3>
 
 <script>
-function verificar() {
-  const token = document.getElementById("token").value;
+function verificar(){
+    const token = document.getElementById("token").value;
 
-  fetch(`https://script.google.com/macros/s/AKfycbyq-RogThV-QIAId0FEGKGm2WGTIYuMneTM0eL4JZOBIG2WldaKAkuF_vRgOHN6gRI2jw/exec?token=${token}`)
-    .then(response => response.json())
-    .then(data => {
-      if (data.result === "success") {
-        alert(
-          "Usuario validado: " + data.nombre + 
-          "\nCorreo: " + data.correo + 
-          "\nConferencia: " + data.conferencia
-        );
-      } else {
-        alert("Token incorrecto");
-      }
+    fetch("https://script.google.com/macros/s/AKfycbw26htkZe1efDiA_Kg6kwpdocCqipCgzbuatID_MSMzjLNg2oBPSGnTLOZQOYY5CTYjvA/exec", {
+        method: "POST",
+        body: JSON.stringify({
+            accion: "verificar",
+            token: token
+        })
     })
-    .catch(err => {
-      console.error(err);
-      alert("Ocurrió un error al verificar el token.");
+    .then(response => response.text())
+    .then(data => {
+
+        if(data === "No encontrado"){
+            document.getElementById("resultado").innerHTML =
+                "❌ Token inválido";
+        }
+        else if(data === "Ya validado"){
+            document.getElementById("resultado").innerHTML =
+                "⚠️ Este registro ya fue validado anteriormente";
+        }
+        else{
+            document.getElementById("resultado").innerHTML =
+                "🎉 " + data + "<br>Registro validado correctamente";
+        }
+
     });
 }
 </script>
